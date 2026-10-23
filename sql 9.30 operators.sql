@@ -337,13 +337,44 @@ from emp
 	select '   hello   world'
 
 
+------------------------------------------------
+
+--constraints
+
+-- Example: Students Table with Full Constraints
+CREATE TABLE students (
+    student_id SERIAL PRIMARY KEY,                          -- PRIMARY KEY + SERIAL
+    first_name VARCHAR(50) NOT NULL, 		  			    -- NOT NULL
+    last_name VARCHAR(50) NOT NULL,                  	    -- NOT NULL
+    email VARCHAR(100) UNIQUE NOT NULL,             	    -- UNIQUE + NOT NULL
+    age INT CHECK (age >= 18 AND age <= 60),        	    -- CHECK constraint
+    status VARCHAR(10) DEFAULT 'non-active',           	    -- DEFAULT value
+    class_id INT,                                   	    -- will be used for FOREIGN KEY
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- DEFAULT timestamp
+    FOREIGN KEY (class_id) REFERENCES classes(class_id) ON DELETE SET NULL -- FOREIGN KEY
+);
+
+
+CREATE TABLE classes (
+	class_id SERIAL PRIMARY KEY,
+	class_name VARCHAR(50) NOT NULL);
+
+
+INSERT INTO students (first_name, last_name, email, age, status, class_id)VALUES
+	('','Kumar', 'vishnu333.kumar@example.com', 55, 'active', 1),
+	('Anita', 'Sharma', 'anita3.sharma@example.com', 23, DEFAULT, 2),
+	('Rahul', 'Mehta', 'rahul3.mehta@example.com', 30, 'non-active', 3),
+	('Priya', 'Singh', 'priya3.singh@example.com', 28, 'active', NULL); -- NULL allowed for foreign key
+
+
+INSERT INTO classes (class_name) VALUES('Computer Science'),('Mathematics'),('Physics');
 
 
 
+select * from classes
 
 
-
-
+select * from students
 
 
 
